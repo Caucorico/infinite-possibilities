@@ -34,7 +34,8 @@ class GameAccess
             return false;
         }
 
-        if ( !empty(array_uintersect($user->getPlayers()->toArray(), $game->getPlayers()->toArray(), fn($a, $b) => $a->getId() === $b->getId() )) ) {
+
+        if ( !empty(array_uintersect($user->getPlayers()->toArray(), $game->getPlayers()->toArray(), fn($a, $b) => $a->getId() === $b->getId() ? 0 : 1 )) ) {
             return false;
         }
 
