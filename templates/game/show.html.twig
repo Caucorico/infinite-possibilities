@@ -5,6 +5,7 @@
 {% block body %}
     <h1>Game</h1>
 
+    {% if is_granted('ROLE_USER') %}
         <table>
             <tr>
                 <th>iron</th>
@@ -25,8 +26,9 @@
                 <td> {{ production['coal'] }} </td>
             </tr>
         </table>
+    {% endif %}
 
-        <table class="table">
+    <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
