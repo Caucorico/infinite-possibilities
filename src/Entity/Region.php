@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\RegionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -67,6 +69,16 @@ class Region
      * @ORM\JoinColumn(nullable=false)
      */
     private ?Game $game;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Building::class, mappedBy="region", orphanRemoval=true)
+     */
+    private $buildings;
+
+    public function __construct()
+    {
+        $this->buildings = new ArrayCollection();
+    }
 
     public const OCEAN_BIOME = 0;
     public const PLAIN_BIOME = 1;
@@ -196,6 +208,36 @@ class Region
     public function setGame(?Game $game): self
     {
         $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Building[]
+     */
+    public function getBuildings(): Collection
+    {
+        return $this->buildings;
+    }
+
+    public function addBuilding(Building $building): self
+    {
+        if (!$this->buildings->contains($building)) {
+            $this->buildings[] = $building;
+            $building->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBuilding(Building $building): self
+    {
+        if ($this->buildings->removeElement($building)) {
+            // set the owning side to null (unless already changed)
+            if ($building->getRegion() === $this) {
+                $building->setRegion(null);
+            }
+        }
 
         return $this;
     }
