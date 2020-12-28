@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Form\GameType;
 use App\Repository\GameRepository;
+use App\Repository\RegionRepository;
 use App\Service\GameGenerator;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,5 +96,15 @@ class GameController extends AbstractController
         }
 
         return $this->redirectToRoute('game_index');
+    }
+
+    /**
+     * @Route("/{id}/region/{x}/{y}", name="show_game_region", methods={"GET"})
+     */
+    public function showRegion(Game $game, int $x, int $y, RegionRepository $regionRepository): Response
+    {
+        $region = $regionRepository->findByGameAndCoord($game, $x, $y);
+
+        return $this->redirectToRoute('region_show', array('id' => $region->getId()));
     }
 }

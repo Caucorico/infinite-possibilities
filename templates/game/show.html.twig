@@ -57,6 +57,12 @@
         {% endfor %}
 
         ctx.stroke();
+
+        c.addEventListener('click', event => {
+            const x = Math.trunc((event.x - c.offsetLeft)/10);
+            const y = Math.trunc((event.y - c.offsetTop)/10);
+            window.location = '/game/{{ game.id }}/region/' + x + '/' + y;
+        });
     </script>
 
 {% endblock %}

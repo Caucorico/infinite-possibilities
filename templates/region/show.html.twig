@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Region{% endblock %}
+
+{% block body %}
+    <h1>Region</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ region.id }}</td>
+            </tr>
+            <tr>
+                <th>X</th>
+                <td>{{ region.x }}</td>
+            </tr>
+            <tr>
+                <th>Y</th>
+                <td>{{ region.y }}</td>
+            </tr>
+            <tr>
+                <th>Biome</th>
+                <td>{{ region.biome }}</td>
+            </tr>
+            <tr>
+                <th>Iron</th>
+                <td>{{ region.iron }}</td>
+            </tr>
+            <tr>
+                <th>Petrol</th>
+                <td>{{ region.petrol }}</td>
+            </tr>
+            <tr>
+                <th>Uranium</th>
+                <td>{{ region.uranium }}</td>
+            </tr>
+            <tr>
+                <th>Gold</th>
+                <td>{{ region.gold }}</td>
+            </tr>
+            <tr>
+                <th>Sand</th>
+                <td>{{ region.sand }}</td>
+            </tr>
+            <tr>
+                <th>Coal</th>
+                <td>{{ region.coal }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    Buildings :
+    <table class="table">
+        <thead>
+            <th>Type</th>
+        </thead>
+        <tbody>
+            {% for building in region.buildings %}
+                <td>{{ building.buildingType.name }}</td>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('game_show', {'id': region.game.id}) }}">back to map</a>
+{% endblock %}
