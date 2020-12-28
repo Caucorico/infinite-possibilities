@@ -3,21 +3,36 @@
 namespace App\Controller;
 
 use App\Entity\Game;
+use App\Entity\User;
 use App\Form\GameType;
 use App\Repository\GameRepository;
 use App\Repository\RegionRepository;
+use App\Repository\UserRepository;
+use App\Service\GameAccess;
 use App\Service\GameGenerator;
+use App\Service\PlayerInformations;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * @Route("/game")
  */
 class GameController extends AbstractController
 {
+    /**
+     * @var Security
+     */
+    private $security;
+
+    public function __construct(Security $security) {
+        $this->security = $security;
+    }
+
     /**
      * @Route("/", name="game_index", methods={"GET"})
      */
@@ -57,10 +72,22 @@ class GameController extends AbstractController
     /**
      * @Route("/{id}", name="game_show", methods={"GET"})
      */
-    public function show(Game $game): Response
+    public function show(Request $request, Game $game, UserRepository $userRepository, PlayerInformations $playerInformations): Response
     {
+        $production = array();
+        /** @var User $user */
+        $user = $this->security->getUser();
+
+        if ( $this->security->isGranted('ROLE_USER') ) {
+
+            $player = $userRepository->getPlayerFromGame($user, $game);
+            $production = $playerInformations->getAllProductions($player);
+        }
+
         return $this->render('game/show.html.twig', [
             'game' => $game,
+            'user' => $user,
+            'production' => $production,
         ]);
     }
 
@@ -106,5 +133,24 @@ class GameController extends AbstractController
         $region = $regionRepository->findByGameAndCoord($game, $x, $y);
 
         return $this->redirectToRoute('region_show', array('id' => $region->getId()));
+    }
+
+    /**
+     * @Route("/{id}/join", name="game_join")
+     */
+    public function joinGame(Request $request, Game $game, GameAccess $gameAccess, UserRepository $userRepository): Response
+    {
+        $user = $this->security->getUser();
+        if ( $gameAccess->canJoinGame($user, $game) ) {
+            $gameAccess->joinGame($user, $game);
+
+            return new JsonResponse(array(
+                'success' => true
+            ));
+        } else {
+            return new JsonResponse(array(
+                'success' => false
+            ));
+        }
     }
 }

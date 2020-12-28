@@ -35,9 +35,15 @@ class Game
      */
     private $size;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Player::class, mappedBy="game", orphanRemoval=true)
+     */
+    private $players;
+
     public function __construct()
     {
         $this->regions = new ArrayCollection();
+        $this->players = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -95,6 +101,36 @@ class Game
     public function setSize(int $size): self
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Player[]
+     */
+    public function getPlayers(): Collection
+    {
+        return $this->players;
+    }
+
+    public function addPlayer(Player $player): self
+    {
+        if (!$this->players->contains($player)) {
+            $this->players[] = $player;
+            $player->setGame($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlayer(Player $player): self
+    {
+        if ($this->players->removeElement($player)) {
+            // set the owning side to null (unless already changed)
+            if ($player->getGame() === $this) {
+                $player->setGame(null);
+            }
+        }
 
         return $this;
     }

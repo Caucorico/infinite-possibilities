@@ -2,6 +2,8 @@
 
 namespace App\Repository;
 
+use App\Entity\Game;
+use App\Entity\Player;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -34,6 +36,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $user->setPassword($newEncodedPassword);
         $this->_em->persist($user);
         $this->_em->flush();
+    }
+
+    public function getPlayerFromGame(User $user, Game $game): ?Player
+    {
+        return $this->createQueryBuilder('u')
+            ->select('p')
+            ->innerJoin(Player::class, 'p')
+            ->innerJoin(Game::class, 'g')
+            ->andWhere('u.id = :id')
+            ->setParameter('id', $user->getId())
+            ->andWhere('g.id = :id2')
+            ->setParameter('id2', $game->getId())
+            ->getQuery()
+            ->getSingleResult();
     }
 
     // /**

@@ -75,6 +75,11 @@ class Region
      */
     private $buildings;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="regions")
+     */
+    private $player;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
@@ -238,6 +243,18 @@ class Region
                 $building->setRegion(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPlayer(): ?Player
+    {
+        return $this->player;
+    }
+
+    public function setPlayer(?Player $player): self
+    {
+        $this->player = $player;
 
         return $this;
     }

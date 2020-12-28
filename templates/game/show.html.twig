@@ -5,7 +5,28 @@
 {% block body %}
     <h1>Game</h1>
 
-    <table class="table">
+        <table>
+            <tr>
+                <th>iron</th>
+                <th>petrol</th>
+                <th>uranium</th>
+                <th>gold</th>
+                <th>sand</th>
+                <th>steel</th>
+                <th>coal</th>
+            </tr>
+            <tr>
+                <td> {{ production['iron'] }} </td>
+                <td> {{ production['petrol'] }} </td>
+                <td> {{ production['uranium'] }} </td>
+                <td> {{ production['gold'] }} </td>
+                <td> {{ production['sand'] }} </td>
+                <td> {{ production['steel'] }} </td>
+                <td> {{ production['coal'] }} </td>
+            </tr>
+        </table>
+
+        <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -18,6 +39,10 @@
         </tbody>
     </table>
 
+    {% if is_granted('ROLE_USER') and gameAccess.canJoinGame(user, game) %}
+        <a href="{{ path('game_join', {'id': game.id}) }}">Join game</a>
+    {% endif %}
+
     <canvas id="game-canvas" width="{{ 10*game.size }}" height="{{ 10*game.size }}" style="border:1px solid #000000;"></canvas>
 
     <a href="{{ path('game_index') }}">back to list</a>
@@ -25,6 +50,8 @@
     <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
 
     {{ include('game/_delete_form.html.twig') }}
+
+    {{ dump() }}
 {% endblock %}
 
 {% block javascripts %}
