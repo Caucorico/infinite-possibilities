@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Game{% endblock %}
+
+{% block body %}
+    <h1>Game</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ game.id }}</td>
+            </tr>
+            <tr>
+                <th>StartDate</th>
+                <td>{{ game.startDate ? game.startDate|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <canvas id="game-canvas" width="{{ 10*game.size }}" height="{{ 10*game.size }}" style="border:1px solid #000000;"></canvas>
+
+    <a href="{{ path('game_index') }}">back to list</a>
+
+    <a href="{{ path('game_edit', {'id': game.id}) }}">edit</a>
+
+    {{ include('game/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        let c = document.getElementById("game-canvas");
+        let ctx = c.getContext("2d");
+        ctx.moveTo(0, 0);
+
+        {% for region in game.regions %}
+
+            {% if region.biome == 0 %}
+                ctx.fillStyle = 'blue';
+            {% elseif region.biome == 1 %}
+                ctx.fillStyle = 'green';
+            {% elseif region.biome == 2 %}
+                ctx.fillStyle = 'darkgreen';
+            {% elseif region.biome == 3 %}
+                ctx.fillStyle = 'purple';
+            {% elseif region.biome == 4 %}
+                ctx.fillStyle = 'yellow';
+            {% elseif region.biome == 5 %}
+                ctx.fillStyle = 'gray';
+            {% else %}
+                ctx.fillStyle = 'green';
+            {% endif %}
+
+            ctx.fillRect({{ 10*region.x }}, {{ 10*region.y }}, 10, 10);
+        {% endfor %}
+
+        ctx.stroke();
+    </script>
+
+{% endblock %}
