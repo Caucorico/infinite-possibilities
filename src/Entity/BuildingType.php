@@ -105,42 +105,82 @@ class BuildingType
     /**
      * @ORM\Column(type="integer")
      */
-    private $moneyCost;
+    private ?int $moneyCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $ironCost;
+    private ?int $ironCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $petrolCost;
+    private ?int $petrolCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $uraniumCost;
+    private ?int $uraniumCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $goldCost;
+    private ?int $goldCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $sandCost;
+    private ?int $sandCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $steelCost;
+    private ?int $steelCost;
 
     /**
      * @ORM\Column(type="integer")
      */
-    private $coalCost;
+    private ?int $coalCost;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $ironCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $petrolCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $uraniumCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $goldCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $sandCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $steelCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $coalCapacity;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $totalCapacity;
 
     public function getId(): ?int
     {
@@ -443,6 +483,107 @@ class BuildingType
     public function setCoalCost(int $coalCost): self
     {
         $this->coalCost = $coalCost;
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getName();
+    }
+
+    public function getIronCapacity(): ?int
+    {
+        return $this->ironCapacity;
+    }
+
+    public function setIronCapacity(int $ironCapacity): self
+    {
+        $this->ironCapacity = $ironCapacity;
+
+        return $this;
+    }
+
+    public function getPetrolCapacity(): ?int
+    {
+        return $this->petrolCapacity;
+    }
+
+    public function setPetrolCapacity(int $petrolCapacity): self
+    {
+        $this->petrolCapacity = $petrolCapacity;
+
+        return $this;
+    }
+
+    public function getUraniumCapacity(): ?int
+    {
+        return $this->uraniumCapacity;
+    }
+
+    public function setUraniumCapacity(int $uraniumCapacity): self
+    {
+        $this->uraniumCapacity = $uraniumCapacity;
+
+        return $this;
+    }
+
+    public function getGoldCapacity(): ?int
+    {
+        return $this->goldCapacity;
+    }
+
+    public function setGoldCapacity(int $goldCapacity): self
+    {
+        $this->goldCapacity = $goldCapacity;
+
+        return $this;
+    }
+
+    public function getSandCapacity(): ?int
+    {
+        return $this->sandCapacity;
+    }
+
+    public function setSandCapacity(int $sandCapacity): self
+    {
+        $this->sandCapacity = $sandCapacity;
+
+        return $this;
+    }
+
+    public function getSteelCapacity(): ?int
+    {
+        return $this->steelCapacity;
+    }
+
+    public function setSteelCapacity(int $steelCapacity): self
+    {
+        $this->steelCapacity = $steelCapacity;
+
+        return $this;
+    }
+
+    public function getCoalCapacity(): ?int
+    {
+        return $this->coalCapacity;
+    }
+
+    public function setCoalCapacity(int $coalCapacity): self
+    {
+        $this->coalCapacity = $coalCapacity;
+
+        return $this;
+    }
+
+    public function getTotalCapacity(): ?int
+    {
+        return $this->totalCapacity;
+    }
+
+    public function setTotalCapacity(int $totalCapacity): self
+    {
+        $this->totalCapacity = $totalCapacity;
 
         return $this;
     }

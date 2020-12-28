@@ -13,7 +13,6 @@ class BuildingType extends AbstractType
     {
         $builder
             ->add('buildingType')
-            ->add('region')
         ;
     }
 

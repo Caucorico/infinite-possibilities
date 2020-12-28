@@ -51,13 +51,16 @@
     </table>
 
     Buildings :
+    <a href="{{ path('building_new', {'regionId': region.id}) }}">new building</a>
     <table class="table">
         <thead>
-            <th>Type</th>
+            <td>Type</td>
         </thead>
         <tbody>
             {% for building in region.buildings %}
-                <td>{{ building.buildingType.name }}</td>
+                <tr>
+                    <td><a href="{{ path('building_show', {'id': building.id}) }}">{{ building.buildingType.name }}</a></td>
+                </tr>
             {% endfor %}
         </tbody>
     </table>
