@@ -94,6 +94,28 @@
                 <td> {{ maximumFlow['coal'] }} </td>
             </tr>
         </table>
+
+        <h3>Current flow : </h3>
+        <table>
+            <tr>
+                <th>iron</th>
+                <th>petrol</th>
+                <th>uranium</th>
+                <th>gold</th>
+                <th>sand</th>
+                <th>steel</th>
+                <th>coal</th>
+            </tr>
+            <tr>
+                <td> {{ currentFlow['iron'] }} </td>
+                <td> {{ currentFlow['petrol'] }} </td>
+                <td> {{ currentFlow['uranium'] }} </td>
+                <td> {{ currentFlow['gold'] }} </td>
+                <td> {{ currentFlow['sand'] }} </td>
+                <td> {{ currentFlow['steel'] }} </td>
+                <td> {{ currentFlow['coal'] }} </td>
+            </tr>
+        </table>
     {% endif %}
 
     Buildings :
@@ -121,6 +143,21 @@
         {% for infrastructure in region.infrastructures %}
             <tr>
                 <td><a href="{{ path('infrastructure_show', {'id': infrastructure.id}) }}">{{ infrastructure.infrastructureType.name }}</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    Merchandise Ways :
+    <a href="{{ path('merchandise_way_from_region_new', {'regionId': region.id}) }}">new merchandise way</a>
+    <table class="table">
+        <thead>
+        <td>Type</td>
+        </thead>
+        <tbody>
+        {% for merchandiseWay in region.startMerchandiseWays %}
+            <tr>
+                <td><a href="{{ path('merchandise_way_show', {'id': merchandiseWay.id}) }}">{{ merchandiseWay }}</a></td>
             </tr>
         {% endfor %}
         </tbody>

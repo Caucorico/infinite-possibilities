@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}MerchandiseWay{% endblock %}
+
+{% block body %}
+    <h1>MerchandiseWay</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ merchandise_way.id }}</td>
+            </tr>
+            <tr>
+                <th>CurrentFlow</th>
+                <td>{{ merchandise_way.currentFlow ? merchandise_way.currentFlow|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Path</th>
+                <td>{{ merchandise_way.path ? merchandise_way.path|json_encode : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('region_show', {'id': merchandise.start.id}) }}">back to the region</a>
+{% endblock %}

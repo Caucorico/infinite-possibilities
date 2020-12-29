@@ -24,6 +24,7 @@ class RegionController extends AbstractController
         return $this->render('region/show.html.twig', [
             'region' => $region,
             'maximumFlow' => $regionInformations->getMaximumFlow($region),
+            'currentFlow' => $regionInformations->getCurrentFlow($region),
             'production' => $regionInformations->getAllProductions($region),
         ]);
     }

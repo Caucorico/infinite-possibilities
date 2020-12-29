@@ -52,6 +52,7 @@ class RegionInformations
             $maximumFlow['sand'] += $infraFlow['sand'];
             $maximumFlow['steel'] += $infraFlow['steel'];
             $maximumFlow['coal'] += $infraFlow['coal'];
+            $maximumFlow['max'] += $infraFlow['max'];
         }
 
         return $maximumFlow;
@@ -60,18 +61,16 @@ class RegionInformations
     public function getCurrentFlow(Region $region): array {
         $currentFlow = $this->flowUtils->initializeFlowArray();
 
-        /* TODO : */
-
-        /*foreach ( $region->getInfrastructures() as $infrastructure ) {
-            $infraFlow = $infrastructure->getInfrastructureType()->getFlow();
-            $maximumFlow['iron'] += $infraFlow['iron'];
-            $maximumFlow['petrol'] += $infraFlow['petrol'];
-            $maximumFlow['uranium'] += $infraFlow['uranium'];
-            $maximumFlow['gold'] += $infraFlow['gold'];
-            $maximumFlow['sand'] += $infraFlow['sand'];
-            $maximumFlow['steel'] += $infraFlow['steel'];
-            $maximumFlow['coal'] += $infraFlow['coal'];
-        }*/
+        foreach ( $region->getStartMerchandiseWays() as $merchandiseWay ) {
+            $infraFlow = $merchandiseWay->getCurrentFlow();
+            $currentFlow['iron'] += $infraFlow['iron'];
+            $currentFlow['petrol'] += $infraFlow['petrol'];
+            $currentFlow['uranium'] += $infraFlow['uranium'];
+            $currentFlow['gold'] += $infraFlow['gold'];
+            $currentFlow['sand'] += $infraFlow['sand'];
+            $currentFlow['steel'] += $infraFlow['steel'];
+            $currentFlow['coal'] += $infraFlow['coal'];
+        }
 
         return $currentFlow;
     }

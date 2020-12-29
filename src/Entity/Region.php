@@ -73,22 +73,34 @@ class Region
     /**
      * @ORM\OneToMany(targetEntity=Building::class, mappedBy="region", orphanRemoval=true, cascade={"PERSIST"})
      */
-    private $buildings;
+    private Collection $buildings;
 
     /**
      * @ORM\ManyToOne(targetEntity=Player::class, inversedBy="regions")
      */
-    private $player;
+    private ?Player $player;
 
     /**
      * @ORM\OneToMany(targetEntity=Infrastructure::class, mappedBy="region", orphanRemoval=true, cascade={"PERSIST"})
      */
-    private $infrastructures;
+    private Collection $infrastructures;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MerchandiseWay::class, mappedBy="start", orphanRemoval=true)
+     */
+    private Collection $startMerchandiseWays;
+
+    /**
+     * @ORM\OneToMany(targetEntity=MerchandiseWay::class, mappedBy="end", orphanRemoval=true)
+     */
+    private Collection $endMerchandiseWays;
 
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
         $this->infrastructures = new ArrayCollection();
+        $this->startMerchandiseWays = new ArrayCollection();
+        $this->endMerchandiseWays = new ArrayCollection();
     }
 
     public const OCEAN_BIOME = 0;
@@ -293,5 +305,70 @@ class Region
         }
 
         return $this;
+    }
+
+    /**
+     * @return Collection|MerchandiseWay[]
+     */
+    public function getStartMerchandiseWays(): Collection
+    {
+        return $this->startMerchandiseWays;
+    }
+
+    public function addStartMerchandiseWay(MerchandiseWay $startMerchandiseWay): self
+    {
+        if (!$this->startMerchandiseWays->contains($startMerchandiseWay)) {
+            $this->startMerchandiseWays[] = $startMerchandiseWay;
+            $startMerchandiseWay->setStart($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStartMerchandiseWay(MerchandiseWay $startMerchandiseWay): self
+    {
+        if ($this->startMerchandiseWays->removeElement($startMerchandiseWay)) {
+            // set the owning side to null (unless already changed)
+            if ($startMerchandiseWay->getStart() === $this) {
+                $startMerchandiseWay->setStart(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|MerchandiseWay[]
+     */
+    public function getEndMerchandiseWays(): Collection
+    {
+        return $this->endMerchandiseWays;
+    }
+
+    public function addEndMerchandiseWay(MerchandiseWay $endMerchandiseWay): self
+    {
+        if (!$this->endMerchandiseWays->contains($endMerchandiseWay)) {
+            $this->endMerchandiseWays[] = $endMerchandiseWay;
+            $endMerchandiseWay->setEnd($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEndMerchandiseWay(MerchandiseWay $endMerchandiseWay): self
+    {
+        if ($this->endMerchandiseWays->removeElement($endMerchandiseWay)) {
+            // set the owning side to null (unless already changed)
+            if ($endMerchandiseWay->getEnd() === $this) {
+                $endMerchandiseWay->setEnd(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return "Sector ".$this->getX()."-".$this->getY();
     }
 }
