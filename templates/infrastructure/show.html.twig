@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Infrastructure{% endblock %}
+
+{% block body %}
+    <h1>Infrastructure</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ infrastructure.id }}</td>
+                <td>{{ infrastructure.infrastructureType.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('region_show', {'id': infrastructure.region.id}) }}">back to the region</a>
+{% endblock %}

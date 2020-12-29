@@ -50,6 +50,52 @@
         </tbody>
     </table>
 
+    {% if is_granted('ROLE_USER') %}
+        <h3>Production : </h3>
+        <table>
+            <tr>
+                <th>iron</th>
+                <th>petrol</th>
+                <th>uranium</th>
+                <th>gold</th>
+                <th>sand</th>
+                <th>steel</th>
+                <th>coal</th>
+            </tr>
+            <tr>
+                <td> {{ production['iron'] }} </td>
+                <td> {{ production['petrol'] }} </td>
+                <td> {{ production['uranium'] }} </td>
+                <td> {{ production['gold'] }} </td>
+                <td> {{ production['sand'] }} </td>
+                <td> {{ production['steel'] }} </td>
+                <td> {{ production['coal'] }} </td>
+            </tr>
+        </table>
+
+        <h3>Maximum flow : </h3>
+        <table>
+            <tr>
+                <th>iron</th>
+                <th>petrol</th>
+                <th>uranium</th>
+                <th>gold</th>
+                <th>sand</th>
+                <th>steel</th>
+                <th>coal</th>
+            </tr>
+            <tr>
+                <td> {{ maximumFlow['iron'] }} </td>
+                <td> {{ maximumFlow['petrol'] }} </td>
+                <td> {{ maximumFlow['uranium'] }} </td>
+                <td> {{ maximumFlow['gold'] }} </td>
+                <td> {{ maximumFlow['sand'] }} </td>
+                <td> {{ maximumFlow['steel'] }} </td>
+                <td> {{ maximumFlow['coal'] }} </td>
+            </tr>
+        </table>
+    {% endif %}
+
     Buildings :
     <a href="{{ path('building_new', {'regionId': region.id}) }}">new building</a>
     <table class="table">
@@ -62,6 +108,21 @@
                     <td><a href="{{ path('building_show', {'id': building.id}) }}">{{ building.buildingType.name }}</a></td>
                 </tr>
             {% endfor %}
+        </tbody>
+    </table>
+
+    Infrastructures :
+    <a href="{{ path('infrastructure_new', {'regionId': region.id}) }}">new infrastructure</a>
+    <table class="table">
+        <thead>
+        <td>Type</td>
+        </thead>
+        <tbody>
+        {% for infrastructure in region.infrastructures %}
+            <tr>
+                <td><a href="{{ path('infrastructure_show', {'id': infrastructure.id}) }}">{{ infrastructure.infrastructureType.name }}</a></td>
+            </tr>
+        {% endfor %}
         </tbody>
     </table>
 

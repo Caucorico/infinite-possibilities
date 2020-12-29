@@ -29,7 +29,7 @@ class BuildingController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
 
-            $building->setRegion($region);
+            $region->addBuilding($building);
 
             $entityManager->persist($building);
             $entityManager->flush();

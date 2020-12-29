@@ -71,7 +71,7 @@ class Region
     private ?Game $game;
 
     /**
-     * @ORM\OneToMany(targetEntity=Building::class, mappedBy="region", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity=Building::class, mappedBy="region", orphanRemoval=true, cascade={"PERSIST"})
      */
     private $buildings;
 
@@ -80,9 +80,15 @@ class Region
      */
     private $player;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Infrastructure::class, mappedBy="region", orphanRemoval=true, cascade={"PERSIST"})
+     */
+    private $infrastructures;
+
     public function __construct()
     {
         $this->buildings = new ArrayCollection();
+        $this->infrastructures = new ArrayCollection();
     }
 
     public const OCEAN_BIOME = 0;
@@ -255,6 +261,36 @@ class Region
     public function setPlayer(?Player $player): self
     {
         $this->player = $player;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Infrastructure[]
+     */
+    public function getInfrastructures(): Collection
+    {
+        return $this->infrastructures;
+    }
+
+    public function addInfrastructure(Infrastructure $infrastructure): self
+    {
+        if (!$this->infrastructures->contains($infrastructure)) {
+            $this->infrastructures[] = $infrastructure;
+            $infrastructure->setRegion($this);
+        }
+
+        return $this;
+    }
+
+    public function removeInfrastructure(Infrastructure $infrastructure): self
+    {
+        if ($this->infrastructures->removeElement($infrastructure)) {
+            // set the owning side to null (unless already changed)
+            if ($infrastructure->getRegion() === $this) {
+                $infrastructure->setRegion(null);
+            }
+        }
 
         return $this;
     }

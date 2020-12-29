@@ -34,11 +34,19 @@ class PlayerInformations
      */
     private RegionRepository $regionRepository;
 
-    public function __construct(PlayerRepository $playerRepository, GameRepository $gameRepository, UserRepository $userRepository, RegionRepository $regionRepository) {
+    /**
+     * @var ProductionUtils
+     */
+    private ProductionUtils $productionUtils;
+
+    public function __construct(PlayerRepository $playerRepository, GameRepository $gameRepository,
+                                UserRepository $userRepository, RegionRepository $regionRepository,
+                                ProductionUtils $productionUtils) {
         $this->playerRepository = $playerRepository;
         $this->gameRepository = $gameRepository;
         $this->userRepository = $userRepository;
         $this->regionRepository = $regionRepository;
+        $this->productionUtils = $productionUtils;
     }
 
     public function getAllProductions(Player $player): array {
