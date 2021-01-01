@@ -33,17 +33,23 @@ class Game
     /**
      * @ORM\Column(type="smallint")
      */
-    private $size;
+    private ?int $size;
 
     /**
      * @ORM\OneToMany(targetEntity=Player::class, mappedBy="game", orphanRemoval=true)
      */
-    private $players;
+    private Collection $players;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=RessourceType::class)
+     */
+    private Collection $ressources;
 
     public function __construct()
     {
         $this->regions = new ArrayCollection();
         $this->players = new ArrayCollection();
+        $this->ressources = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -131,6 +137,30 @@ class Game
                 $player->setGame(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|RessourceType[]
+     */
+    public function getRessources(): Collection
+    {
+        return $this->ressources;
+    }
+
+    public function addRessource(RessourceType $ressource): self
+    {
+        if (!$this->ressources->contains($ressource)) {
+            $this->ressources[] = $ressource;
+        }
+
+        return $this;
+    }
+
+    public function removeRessource(RessourceType $ressource): self
+    {
+        $this->ressources->removeElement($ressource);
 
         return $this;
     }
